@@ -21,7 +21,7 @@ RUN apt-key add /var/tmp/GPG-KEY-elasticsearch && \
 # apt-get
 RUN sed -i s/us.archive.ubuntu.com/ftp.jaist.ac.jp/ /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install -qq -y --force-yes td-agent elasticsearch apache2
+    apt-get install -qq -y --force-yes td-agent elasticsearch apache2 libcurl4-openssl-dev make
 
 # Install Kibana
 ENV _KIBANA_FILENAME kibana-3.1.0
