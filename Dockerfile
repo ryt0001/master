@@ -45,8 +45,8 @@ ADD conf/apache.conf /etc/httpd/conf.d/
 
 # Expose Elasticsearch ports.
 #   9200: HTTP, 9300: transport
-EXPOSE 9200
-EXPOSE 9300
+#EXPOSE 9200
+#EXPOSE 9300
 
 # Expose Fluentd port.
 EXPOSE 24284
