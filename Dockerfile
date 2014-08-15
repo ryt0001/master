@@ -59,8 +59,10 @@ RUN a2dissite 000-default && a2ensite site
 
 # Create .htdigest for digest authentication 
 # Start services with Supervisor
-ENTRYPOINT ["htdigest"]
-CMD ["-c","/etc/apache2.htdigest","'Authentication required'","admin"]
+#ENTRYPOINT ["htdigest"]
+#CMD ["-c","/etc/apache2.htdigest","'Authentication required'","admin"]
+
+CMD service apache2 start && service elasticsearch start && service td-agent start && /bin/bash
 
 # Expose Elasticsearch ports. (9200 HTTP, 9300 transport)
 EXPOSE 9200
