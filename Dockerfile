@@ -21,7 +21,7 @@ RUN apt-key add /var/tmp/GPG-KEY-elasticsearch && \
 # Install (apt-get)
 RUN sed -i s/us.archive.ubuntu.com/ftp.jaist.ac.jp/ /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install -qq -y --force-yes td-agent elasticsearch apache2 apache2-utils libcurl4-openssl-dev make
+    apt-get install -qq -y --force-yes td-agent elasticsearch apache2 apache2-utils libcurl4-openssl-dev make supervisor
 
 # Install Kibana
 ENV _KIBANA_FILENAME kibana-3.1.0
@@ -43,6 +43,7 @@ RUN sed -i 's%"http://"+window.location.hostname+":9200"%"http://"+window.locati
 VOLUME {"/var/lib/elasticsearch","/var/log/elasticsearch"}
 
 # Add .conf files
+ADD conf/supervisord.conf /etc/supervisor/conf.d/
 ADD conf/td-agent.conf /etc/td-agent/
 ADD conf/site.conf /etc/apache2/sites-available/
 ADD conf/proxy.conf /etc/apache2/conf-available/
@@ -54,15 +55,14 @@ a2enmod proxy && \
 a2enmod proxy_http && \
 a2enmod auth_digest 
 
-# Digest認証を追加
+# enable site config for digest authentication
 RUN a2dissite 000-default && a2ensite site
 
-# Create .htdigest for digest authentication 
 # Start services with Supervisor
-#ENTRYPOINT ["htdigest"]
-#CMD ["-c","/etc/apache2.htdigest","'Authentication required'","admin"]
-
-CMD service apache2 start && service elasticsearch start && service td-agent start && /bin/bash
+CMD \
+	/usr/bin/supervisord && \
+	# Create .htdigest for digest authentication 
+	htdigest -c /etc/apache2/.htdigest 'Authentication required' admin 
 
 # Expose Elasticsearch ports. (9200 HTTP, 9300 transport)
 EXPOSE 9200
