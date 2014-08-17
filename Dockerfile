@@ -56,7 +56,7 @@ a2enmod proxy_http && \
 a2enmod auth_digest 
 
 # enable site config for digest authentication
-RUN a2dissite 000-default && a2ensite site
+# RUN a2dissite 000-default && a2ensite site
 
 # Start services with Supervisor
 CMD \
