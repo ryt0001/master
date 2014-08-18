@@ -62,7 +62,7 @@ a2enmod auth_digest
 # htdigest -c /etc/apache2/.htdigest 'Authentication required' admin 
 
 # Start services with Supervisor
-CMD ["usr/bin/supervisord"]
+CMD [“/usr/bin/supervisord"]
 
 # Expose Elasticsearch ports. (9200 HTTP, 9300 transport)
 EXPOSE 9200
