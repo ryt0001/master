@@ -58,11 +58,11 @@ a2enmod auth_digest
 # enable site config for digest authentication
 # RUN a2dissite 000-default && a2ensite site
 
+# Create .htdigest for digest authentication 
+# htdigest -c /etc/apache2/.htdigest 'Authentication required' admin 
+
 # Start services with Supervisor
-CMD \
-	/usr/bin/supervisord
-	# Create .htdigest for digest authentication 
-	# htdigest -c /etc/apache2/.htdigest 'Authentication required' admin 
+CMD ["usr/bin/supervisord"]
 
 # Expose Elasticsearch ports. (9200 HTTP, 9300 transport)
 EXPOSE 9200
