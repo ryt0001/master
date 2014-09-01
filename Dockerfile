@@ -32,7 +32,7 @@ RUN cd /var/tmp/ && \
 
 # Install Elasticsearch plugins (Head, Marvel, fluentd-plugin-elasticsearch)
 RUN /usr/share/elasticsearch/bin/plugin -i mobz/elasticsearch-head
-RUN /usr/share/elasticsearch/bin/plugin -i elasticsearch/marvel/latest
+#RUN /usr/share/elasticsearch/bin/plugin -i elasticsearch/marvel/latest
 RUN /usr/lib/fluent/ruby/bin/fluent-gem install --no-ri --no-rdoc fluent-plugin-elasticsearch
 RUN /usr/lib/fluent/ruby/bin/fluent-gem install --no-ri --no-rdoc fluent-plugin-secure-forward
 
@@ -42,12 +42,12 @@ sed -i '32s/^/\/\//' /var/www/html/kibana/config.js && \
 sed -i '32a elasticsearch: "http://"+window.location.hostname+"/es/",' /var/www/html/kibana/config.js
 
 # Modify config.js for Marvel
-RUN \
-sed -i '24s/^/\/\//' /usr/share/elasticsearch/plugins/marvel/_site/kibana/config.js && \
-sed -i '24a elasticsearch: window.location.protocol+"//"+window.location.hostname+(window.location.port !== '' ? ':'+window.location.port : '')+"/es/",' /usr/share/elasticsearch/plugins/marvel/_site/kibana/config.js
+#RUN \
+#sed -i '24s/^/\/\//' /usr/share/elasticsearch/plugins/marvel/_site/kibana/config.js && \
+#3sed -i '24a elasticsearch: window.location.protocol+"//"+window.location.hostname+(window.location.port !== '' ? ':'+window.location.port : '')+"/es/",' /usr/share/elasticsearch/plugins/marvel/_site/kibana/config.js
 
 # Define mountable directories
-VOLUME {"/var/lib/elasticsearch","/var/log/"}
+VOLUME {"/usr/share/elasticsearch","/var/log/"}
 
 # Add .conf files
 ADD conf/supervisord.conf /etc/supervisor/conf.d/
